@@ -1,0 +1,26 @@
+# .gitlab-ci.yml
+
+stages:
+  - build
+  - test
+  - deploy
+
+build_job:
+  stage: build
+  script:
+    - echo "Собираем проект..."
+    - cat index.html  # Просто пример "сборки"
+
+test_job:
+  stage: test
+  script:
+    - echo "Проверяем HTML-файл..."
+    - grep "Hello CI/CD" index.html  # Простейший "тест"
+
+deploy_job:
+  stage: deploy
+  script:
+    - echo "Деплоим на сервер..."
+    - echo "Представим, что здесь команда деплоя (например, scp или rsync)"
+  only:
+    - master  # Запускать только при коммитах в master
