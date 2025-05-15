@@ -1,0 +1,42 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]  # Запускать при пуше в main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Используем образ Ubuntu
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4  # Клонируем репозиторий
+
+      - name: Build step
+        run: |
+          echo "Собираем проект..."
+          cat index.html  # Пример "сборки"
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build  # Зависит от завершения build
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test HTML
+        run: |
+          echo "Проверяем HTML..."
+          grep "Hello CI/CD" index.html  # Простейший тест
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test  # Зависит от завершения test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy
+        run: |
+          echo "Деплоим на сервер..."
+          # Здесь могут быть команды деплоя (scp, rsync и т.д.)
